@@ -78,6 +78,14 @@ module PoiseMonit
         #   Line or lines to be added to the service definition as is.
         #   @return [String, Array<String>]
         attribute(:extra, kind_of: [String, Array], default: [])
+        # @!attribute user
+        #   Run that service as a user
+        #   It can be a string username or a uid integer
+        attribute(:user, kind_of: [String, Integer], default: '')
+        # @!attribute group
+        #   Run that service as a group
+        #   It can be a string username or a gid integer
+        attribute(:group, kind_of: [String, Integer], default: lazy { default_group })
 
         # An alias for #check_name to make things more semantically meaningful.
         alias_method :check_name, :config_name
@@ -112,6 +120,12 @@ module PoiseMonit
         # @return [String]
         def default_stop_program
           _init_command('stop')
+        end
+
+        def default_group
+          if !user.empty? and group.empty?
+            user
+          end
         end
 
         # Helper for default values that only apply to process checks.

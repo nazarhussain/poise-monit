@@ -8,4 +8,5 @@ coverage/
 pkg/
 .yardoc/
 doc/
+.idea/
 

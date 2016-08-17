@@ -1,9 +1,15 @@
 CHECK <%= @new_resource.check_type.to_s.upcase %> <%= @new_resource.check_name %><% if @new_resource.with %> <%= @new_resource.with %><% end %>
   <%- if @new_resource.start_program -%>
   start program = "<%= @new_resource.start_program %>"
+    <%- if @new_resource.user -%>
+        as uid <%= @new_resource.user %> and gid <%= @new_resource.group %>
+    <%- end %>
   <%- end -%>
   <%- if @new_resource.stop_program -%>
   stop program = "<%= @new_resource.stop_program %>"
+    <%- if @new_resource.user -%>
+        as uid <%= @new_resource.user %> and gid <%= @new_resource.group %>
+    <%- end %>
   <%- end -%>
   <%- Array(@new_resource.check).each do |check_line| -%>
   <%= check_line !~ /^if/i ? 'IF ' : '' %><%= check_line.strip %>
